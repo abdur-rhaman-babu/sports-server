@@ -27,6 +27,12 @@ async function run() {
             const result = await sportEquipmentCollection.insertOne(product)
             res.send(result)
         })
+
+        app.get('/products', async(req, res)=>{
+            const query = sportEquipmentCollection.find()
+            const result = await query.toArray()
+            res.send(result)
+        })
     } catch (error) {
         console.log(error)
     }
