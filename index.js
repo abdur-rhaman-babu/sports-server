@@ -20,7 +20,13 @@ const client = new MongoClient(uri, {
 
 async function run() {
     try {
-      
+        const sportEquipmentCollection = client.db('equipDB').collection('products')
+        
+        app.post('/products', async (req, res)=>{
+            const product = req.body;
+            const result = await sportEquipmentCollection.insertOne(product)
+            res.send(result)
+        })
     } catch (error) {
         console.log(error)
     }
