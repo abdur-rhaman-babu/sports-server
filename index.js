@@ -58,6 +58,39 @@ async function run() {
         res.send(result)
     })
 
+    app.get('/products/email/:email/:id', async(req, res)=>{
+        const email = req.params.email;
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id), user_email: email}
+        const result = await sportEquipmentCollection.findOne(query)
+        res.send(result)
+    })
+
+    app.put('/products/email/:email/:id', async(req, res)=>{
+        const email = req.params.email;
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id), user_email: email}
+        const options = {upsert: true}
+        const product = req.body;
+        const updatedProduct = {
+            $set:{
+                photo: product.photo,
+                item_name: product.item_name,
+                category: product.category,
+                price: product.price,
+                customization: product.customization,
+                processing_time: product.processing_time,
+                stock_status: product.stock_status,
+                rating: product.rating,
+                user_email: product.user_email,
+                user_name: product.user_name,
+                description: product.description
+            }
+        }
+        const result = await sportEquipmentCollection.updateOne(query, updatedProduct, options)
+        res.send(result)
+    })
+
   } catch (error) {
     console.log(error);
   }
