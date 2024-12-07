@@ -103,6 +103,11 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/products-limited", async (req, res) => {
+      const result = await sportEquipmentCollection.find().limit(6).toArray();
+      res.send(result);
+    });
+
   } catch (error) {
     console.log(error);
   }
