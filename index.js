@@ -43,8 +43,8 @@ async function run() {
       res.json(result);
     });
 
-    app.get("/products/email/:email", async (req, res) => {
-      const email = req.params.email;
+    app.get("/myApplication", async (req, res) => {
+      const email = req.query.email;
       const query = { user_email: email };
       const result = await sportEquipmentCollection.find(query).toArray();
       res.send(result);
