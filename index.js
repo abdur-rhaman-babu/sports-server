@@ -7,7 +7,7 @@ const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 2500;
 
-app.use(cors({ origin: ["http://localhost:5173/"], credentials: true }));
+app.use(cors({ origin: ["http://localhost:5173"], credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -119,6 +119,15 @@ async function run() {
       });
       res
         .cookie("token", token, {
+          httpOnly: true,
+          secure: false,
+        })
+        .send({ success: true });
+    });
+
+    app.post("/logout", (req, res) => {
+      res
+        .clearCookie("token", {
           httpOnly: true,
           secure: false,
         })
