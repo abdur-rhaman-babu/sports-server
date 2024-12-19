@@ -42,6 +42,18 @@ async function run() {
       .db("equipDB")
       .collection("products");
 
+    const fashionCollection = client.db("equipDB").collection("fashions");
+
+    app.get('/productsCount', async (req, res)=>{
+        const count = await fashionCollection.estimatedDocumentCount()
+        res.send({count})
+    })
+
+    app.get('/fashions', async (req, res)=>{
+      const result = await fashionCollection.find().toArray()
+      res.send(result)
+    })
+
     app.post("/products", async (req, res) => {
       const product = req.body;
       const result = await sportEquipmentCollection.insertOne(product);
@@ -135,7 +147,7 @@ async function run() {
     app.post("/jwt", (req, res) => {
       const user = req.body;
       const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "1h",
+        expiresIn: "10h",
       });
       res
         .cookie("token", token, {
