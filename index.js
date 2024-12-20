@@ -50,7 +50,13 @@ async function run() {
     })
 
     app.get('/fashions', async (req, res)=>{
-      const result = await fashionCollection.find().toArray()
+      const page = parseInt(req.query.page)
+      const size = parseInt(req.query.size)
+
+      const result = await fashionCollection.find()
+      .skip(page * size)
+      .limit(size)
+      .toArray()
       res.send(result)
     })
 
